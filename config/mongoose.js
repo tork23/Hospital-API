@@ -1,18 +1,19 @@
+// Require Mongoose
 const mongoose = require("mongoose");
 
-// connect to mongodb
-mongoose.connect("mongodb://localhost/hospital");
+// Connect to mongodb
+mongoose.connect("mongodb://localhost/HospitalAPI");
 
-//get the connection
+// Acquire the connection
 const db = mongoose.connection;
 
-// on error show error message on console
+// Error Handling
 db.on(
   "error",
   console.error.bind(console, "Error connecting to the database :: MongoDB")
 );
 
-// on successful connection show successful message
+// On successful connection
 db.once("open", () =>
   console.log("Successfully connected to the db :: MongoDB")
 );

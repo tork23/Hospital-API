@@ -1,28 +1,28 @@
 const Doctor = require("./../models/doctor");
 const jwt = require("jsonwebtoken");
 
-//register doctor
+// Register doctor
 module.exports.register = async (req, res) => {
   try {
-    //check if password and confirm password matches
+    // If password and confirm_password doesn't match
     if (req.body.password !== req.body.confirm_password) {
       return res.status(400).json({
-        message: "password doesn't match",
+        message: "password mismatch",
       });
     }
 
-    //  check if phone number already exists
     let doctorExist = await Doctor.findOne({ phone: req.body.phone });
 
+    // If phone number of doctor already exists
     if (doctorExist) {
-      //  return doctor exist message
+      //  Return doctor exist message
       return res.status(400).json({ message: "Doctor already exists!!" });
     } else {
-      //create new doctor
+      // Create a new doctor
       await Doctor.create(req.body);
 
       return res.status(200).json({
-        message: "Doctor successfully registered",
+        message: "Doctor is successfully registered",
       });
     }
   } catch (err) {
@@ -35,27 +35,27 @@ module.exports.register = async (req, res) => {
   }
 };
 
-//login doctor
+// Login doctor
 module.exports.login = async (req, res) => {
   try {
-    //check if the doctor is registered or not
     let doctorExist = await Doctor.findOne({ phone: req.body.phone });
 
+    // If doctor doesn't exists OR
+    // If doctor exists but password does't match
     if (!doctorExist || doctorExist.password !== req.body.password) {
       return res.status(422).json({ message: "Invalid Username/Password" });
     }
-
-    //log in doctor successfully
+    // Successful login and create a json bearer token
     return res.status(200).json({
-      message: "Log in successful",
+      message: "Successfuly logged in as a doctor",
       data: {
-        token: jwt.sign(doctorExist.toJSON(), "coronapatients", {
+        token: jwt.sign(doctorExist.toJSON(), "nothing", {
           expiresIn: "360000000",
         }),
       },
     });
   } catch (err) {
-    console.log(`Error logging in doctor : ${err}`);
+    console.log(`Login error : ${err}`);
 
     return res.status(500).json({
       message: "Internal Server Error",

@@ -1,26 +1,28 @@
+const Doctor = require("../models/doctor");
+const Patient = require("../models/patient");
 const Report = require("../models/report");
 
 module.exports.status = async (req, res) => {
   try {
-    // populate report with patient and doctor
+    // Populate report with patient and doctor
     let report = await Report.find({ status: req.params.status })
       .populate({
-        path: "Patient",
-        select: "name address phone",
+        path: "patient",
+        select: "name last_name phone address",
       })
       .populate({
-        path: "Doctor",
-        select: "name _id",
+        path: "doctor",
+        select: "name last_name _id",
       });
 
     if (report && report.length !== 0) {
-      // return list of all the reports
+      // Return list of all the reports
       return res.status(200).json({
         message: `List of all reports with status ${req.params.status}`,
         reports: report,
       });
     } else {
-      // if no report found with the status
+      // If no report found with the status
       return res.status(409).json({
         message: `There are no report with status: ${req.params.status}`,
       });

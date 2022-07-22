@@ -1,13 +1,13 @@
 const express = require("express");
-const route = express.Router();
+const router = express.Router();
 
-// doctors route
-route.use("/doctors", require("./doctors"));
+// Doctors route
+router.use("/doctors", require("./doctors"));
 
-//patients route
-route.use("/patients", require("./patients"));
+// Patients route
+router.use("/patients", require("./patients"));
 
-//reports route
-route.use("/reports", require("./reports"));
+// Peports route
+router.use("/reports", require("./reports"));
 
-module.exports = route;
+module.exports = router;

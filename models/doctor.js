@@ -1,19 +1,26 @@
 const mongoose = require("mongoose");
 
-//doctor schema
+// Doctor schema
 const doctorSchema = new mongoose.Schema(
   {
     name: {
       type: String,
-      required: true,
+      required: true
     },
-    specialty: {
+    last_name: {
+      type: String,
+      required: true
+    },
+    doctor_id: {
       type: String,
       required: true,
+      unique: true
     },
     phone: {
       type: Number,
-      required: true,
+      min: [1000000000, 'Phone No must be at least 10, got {VALUE}'],
+      max: 9999999999,
+      required: true
     },
     address: {
       type: String,
@@ -29,5 +36,7 @@ const doctorSchema = new mongoose.Schema(
   }
 );
 
-// export doctor schema
-module.exports = Doctor = mongoose.model("Doctor", doctorSchema);
+
+// Export doctor schema
+const Doctor = mongoose.model('Doctor', doctorSchema);
+module.exports = Doctor

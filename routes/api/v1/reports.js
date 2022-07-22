@@ -1,7 +1,8 @@
 const express = require("express");
-const route = express.Router();
+const router = express.Router();
 const reportsController = require("../../../controllers/reports_controller");
 
-route.get("/:status", reportsController.status);
+// List all the reports of all the patients filtered by a specific status
+router.get("/:status", reportsController.status);
 
-module.exports = route;
+module.exports = router;

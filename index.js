@@ -1,18 +1,27 @@
+// Require libraries
 const express = require("express");
 const port = 8000;
 const app = express();
 
-const db = require("./config/mongoose");
+const HospitalAPI = require("./config/mongoose");
 
+// Passport Strategy
 const passport = require("passport");
 const passportJWTStrategy = require("./config/passport-jwt-strategy");
 
-app.use(express.urlencoded({ extended: true }));
+// Body parser
+const bodyParser = require('body-parser');
+app.use(bodyParser.urlencoded({extended: false}));
 
-app.use("/", require("./routes"));
+// Use express router
+app.use("/", require("./routes/index"));
 
-app.listen(port, (err) => {
-  if (err) return console.log("Error in running server:", err);
-
-  console.log(`Server is up and running on http://localhost:${port}`);
-});
+// App listening on port
+app.listen(port, function(err){
+    if(err){
+        console.log(`Error in running the server:${err}`);
+    }
+    else{
+        console.log(`Server is running on port:${port}`);
+    }
+})

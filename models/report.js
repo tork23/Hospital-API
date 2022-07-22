@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-//report schema
+// Report schema
 const reportSchema = new mongoose.Schema(
   {
     doctor: {
@@ -13,9 +13,13 @@ const reportSchema = new mongoose.Schema(
     },
     status: {
       type: String,
-      required: true,
+      enum:[
+        "Negative",
+        "Travelled-Quarantine",
+        "Symptoms-Quarantine",
+        "Positive-Admit"
+      ],
     },
-
     date: {
       type: Date,
       required: true,
@@ -26,5 +30,6 @@ const reportSchema = new mongoose.Schema(
   }
 );
 
-// export report schema
-module.exports = Report = mongoose.model("Report", reportSchema);
+// Export report schema
+const Report = mongoose.model('Report', reportSchema);
+module.exports = Report
